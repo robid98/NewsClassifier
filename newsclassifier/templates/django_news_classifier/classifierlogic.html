@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Mate+SC&display=swap" rel="stylesheet">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mate+SC&family=Montserrat:wght@100&family=Roboto+Mono:wght@100&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'django_news_classifier/css/classifierlogic.css' %}">
+    <title>Article Category Classifier</title>
+</head>
+
+<body>
+    <header>
+        <h1>Category Classifier</h1>
+    </header>
+
+    <form method='POST'>
+        {% csrf_token %}
+        <input type="text" class="todo-input" placeholder="Article content" name="article_content">
+        <button class="todo-button" type="submit" >
+            <i class="fa fa-search-plus" aria-hidden="true"></i>
+        </button>
+    </form>
+
+    {% if category_classified %}
+        <h2> Article Content : {{ article_content }} </h2>
+        <br>
+        <h2 style="color:Tomato;"> Article Category Suggested : {{ category_classified }} </h2>
+        <h2 style="color:Yellow;">Algorithm : Naive Bayes | Feature Selection : TF-IDF )</h2>
+    {% endif %}
+
+    <br>
+
+    {% for category, probability in category_probabilities.items %}
+    <h2> {{category}} - {{probability}} </h2>
+    <br>
+    {% endfor %}
+
+    <h3>----------------------------------------------------------------------</h3>
+
+    {% if category_classified_bag_of_words %}
+        <h2 style="color:Tomato;"> Article Category Suggested : {{ category_classified_bag_of_words }} </h2>
+        <h2 style="color:Yellow;">Algorithm : Naive Bayes | Feature Selection : Bag Of Words )</h2>
+    {% endif %}
+
+    <br>
+
+    {% for category, probability in category_probabailities_bag_of_words.items %}
+    <h2> {{category}} - {{probability}} </h2>
+    <br>
+    {% endfor %}
+
+    <h3>----------------------------------------------------------------------</h3>
+    {% if category_knn %}
+        <h2 style="color:Tomato;"> Article Category Suggested : {{ category_knn }} </h2>
+        <h2 style="color:Yellow;">Algorithm :KNN Algorithm | k = 5 )</h2>
+    {% endif %}
+</body>
+
+</html>
